@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.23.2)
 project(hello-world-ebpf LANGUAGES C)
+
+set(CMAKE_C_STANDARD 17)
 
 include(cmake/setup_conan.cmake)
 

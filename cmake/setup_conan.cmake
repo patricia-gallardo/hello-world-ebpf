@@ -10,7 +10,7 @@ include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_check(REQUIRED)
 conan_cmake_autodetect(settings)
 conan_cmake_install(PATH_OR_REFERENCE
-                    ../conanfile.txt
+                    ../../conanfile.txt
                     BUILD missing
                     SETTINGS ${settings})
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(test_package LANGUAGES C)
+project(hello-world-ebpf LANGUAGES C)
 
 include(cmake/setup_conan.cmake)
 

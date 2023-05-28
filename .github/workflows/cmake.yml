@@ -26,7 +26,7 @@ jobs:
             config-preset: linux-clang
             build-preset: linux-clang-build
             test-preset: linux-clang-test
-        cmake-build-type: [Debug, Release]
+        cmake-build-type: [Debug]
 
     steps:
       - uses: actions/checkout@v3

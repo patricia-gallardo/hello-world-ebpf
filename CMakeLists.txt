@@ -11,6 +11,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(setup_conan)
 find_package(libbpf REQUIRED CONFIG)
 
+include_directories(${CMAKE_BINARY_DIR})
+
 # Create vmlinux.h
 # bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
@@ -26,10 +28,17 @@ target_link_libraries(bpf_object PRIVATE libbpf::libbpf)
 # bpftool gen skeleton exec.bpf.o name exec > exec.skel.h
 # bpftool gen skeleton ./cmake-build-debug-clang/CMakeFiles/bpf_object.dir/exec.bpf.c.o name exec > exec.skel.h
 
+add_custom_command(OUTPUT exec.skel.h POST_BUILD
+                   COMMAND bpftool gen skeleton $<TARGET_OBJECTS:bpf_object> name exec > exec.skel.h
+                   VERBATIM
+                   DEPENDS bpf_object $<TARGET_OBJECTS:bpf_object>
+                   COMMENT "[BPF] Building program skeleton ... "
+                   )
+
 # Build userspace C program
 # clang exec.c -lbpf -lelf -o ${PROJECT_NAME}
 
-add_executable(${PROJECT_NAME} exec.c)
+add_executable(${PROJECT_NAME} exec.c exec.skel.h)
 target_link_libraries(${PROJECT_NAME} PRIVATE libbpf::libbpf)
 
 #enable_testing()

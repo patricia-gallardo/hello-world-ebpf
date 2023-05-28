@@ -17,13 +17,16 @@ find_package(libbpf REQUIRED CONFIG)
 # Build kernel eBPF program
 # clang -g -O3 -target bpf -D__TARGET_ARCH_x86_64 -c exec.bpf.c -o exec.bpf.o
 
+add_executable(exec.bpf.o exec.bpf.c)
+target_link_libraries(exec.bpf.o PRIVATE libbpf::libbpf)
+
 # Generate skeleton
 # bpftool gen skeleton exec.bpf.o name exec > exec.skel.h
 
 # Build userspace C program
 # clang exec.c -lbpf -lelf -o ${PROJECT_NAME}
 
-add_executable(${PROJECT_NAME} main.c)
+add_executable(${PROJECT_NAME} exec.c)
 target_link_libraries(${PROJECT_NAME} PRIVATE libbpf::libbpf)
 
 #enable_testing()

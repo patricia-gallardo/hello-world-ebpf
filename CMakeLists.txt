@@ -25,7 +25,7 @@ add_custom_command(OUTPUT vmlinux.h POST_BUILD
 # clang -g -O3 -target bpf -D__TARGET_ARCH_x86_64 -c exec.bpf.c -o exec.bpf.o
 add_library(bpf_object OBJECT exec.bpf.c vmlinux.h)
 target_compile_definitions(bpf_object PUBLIC __TARGET_ARCH_x86_64)
-target_compile_options(bpf_object PRIVATE -target bpf -Wno-unknown-attributes)
+target_compile_options(bpf_object PRIVATE -O3 -target bpf -Wno-unknown-attributes)
 target_link_libraries(bpf_object PRIVATE libbpf::libbpf)
 
 # Generate skeleton
